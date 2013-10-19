@@ -6,19 +6,21 @@ var url = require('url');
 
 var requests = {};
 
-requests['/'] = requestHandler.index;
+//requests['/'] = requestHandler.indexView;
 requests['/messages'] = requestHandler.chatRooms;
 requests['/users'] = requestHandler.users;
 requests['/rooms'] = requestHandler.changeRoom;
 
 var requestListener = function (req, res) {
-  //console.log("Serving request type " + req.method + " for url " + req.url);
+//  console.log("Serving request type " + req.method + " for url " + req.url);
 
   var basePath = url.parse(req.url).pathname;
+  // console.log(basePath);
   if (requests[basePath]) {
     requests[basePath](req, res);
   } else {
-    sendResponse(res, 'Invalid route.', 404);
+    requestHandler.indexView(req, res);
+//    sendResponse(res, 'Invalid route.', 404);
   }
 
 };

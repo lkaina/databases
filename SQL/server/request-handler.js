@@ -9,8 +9,7 @@ var headers = {
   "access-control-allow-origin": "*",
   "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
   "access-control-allow-headers": "content-type, accept",
-  "access-control-max-age": 10, // Seconds.
-  "Content-Type": "applications/json"
+  "access-control-max-age": 10 // Seconds.
 };
 
 exports.indexView = function(req, res) {
@@ -19,21 +18,25 @@ exports.indexView = function(req, res) {
 
 exports.chatRooms = function(req, res) {
   switch (req.method) {
-    case 'GET':
-      sqlServer.getMessages(req, res);
-      break;
+    // case 'GET':
+    //   sqlServer.getMessages(req, res);
+    //   break;
     case 'POST':
-      helpers.collectData(req, function(data){
-        var content = JSON.parse(data);
-        sqlServer.postMessage(content, req, res);
+      helpers.collectData(req, function(data) {
+        data = JSON.parse(data);
+        if (data.hasOwnProperty('latest')) {
+          sqlServer.getMessages(req, res, data);
+        } else {
+          sqlServer.postMessage(data, req, res);
+        }
       });
       break;
     case 'OPTIONS':
-      sendResponse(res, null);
+      sendResponse(res, null, 'text/plain');
       break;
     default:
       console.log("what is happening", req.method);
-      sendResponse(res, 'Uh oh', 404);
+      sendResponse(res, 'Uh oh', 'text/plain', 404);
   }
 };
 
@@ -54,9 +57,11 @@ exports.changeRoom = function(req, res) {
   sqlServer.changeRoom(req, res);
 };
 
-exports.sendResponse = sendResponse = function(res, object, statusCode) {
+exports.sendResponse = sendResponse = function(res, object, contentType, statusCode) {
   statusCode = statusCode || 200;
+  contentType = contentType || 'application/json';
   object = (typeof object === 'string') ? object : JSON.stringify(object);
+  headers["content-type"] = contentType;
   res.writeHead(statusCode, headers);
   res.end(object);
 };
