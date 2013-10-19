@@ -41,10 +41,12 @@ exports.chatRooms = function(req, res) {
 exports.users = function(req, res) {
   switch (req.method) {
     case 'GET':
-      sqlServer.listUsers(req, res);
+      sqlServer.listUsers(res);
       break;
     case 'POST':
-      sqlServer.addUser(req, res);
+      helpers.collectData(req, function(name){
+        sqlServer.addUser(name, res);
+      });
       break;
   }
 };

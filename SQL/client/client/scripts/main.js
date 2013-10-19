@@ -17,6 +17,7 @@ var getUserInfo = function() {
       contentType: 'text/plain',
       data: username,
       success: function(data) {
+        data = JSON.parse(data);
         startApp(username, data);
       }
     });
@@ -24,7 +25,8 @@ var getUserInfo = function() {
 };
 
 var startApp = function(username, data){
-  var chatApp = new ChatApp({ user: username, userId: data });
+
+  var chatApp = new ChatApp({ user: username, userId: data.id, roomId: data.rID });
   var chatAppView = new ChatAppView({model: chatApp});
   chatAppView.render();
 };

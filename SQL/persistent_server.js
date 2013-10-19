@@ -27,26 +27,17 @@ dbConnection.query("SELECT id FROM rooms WHERE name = 'lobby';", function(err, r
 });
 
 exports.getMessages = function(req, res) {
-  
   sendResponse(res, FILL ME IN);
 };
 
 exports.postMessage = function(content, req, res) {
-  var uID;
-  var rID;
-  var roomName = content.roomname;
+  var uID = content.userId;
+  var rID = content.roomId;
   var userName = content.username;
   var text = content.text;
-  var createdAt = content.createdAt;
-  dbConnection.query("SELECT id, rID FROM users WHERE name = '" + content.username + "';", function(err, result) {
-    if (!err){
-      uID = result.id;
-      rID = result.rID; //will always have a room ID because room created when user changes room
-    }
-    var query = "INSERT INTO messages (uID, rID, chatText) VALUES(" + uID + ", " + rID + ", '" + text + "');";
-    dbConnection.query(query, function(err, result){
-      sendResponse(res, 'Message accepted', 201);
-    });
+  var query = "INSERT INTO messages (uID, username, rID, chatText) VALUES(" + uID + ", " + userName + ", " + rID + ", '" + text + "');";
+  dbConnection.query(query, function(err, result){
+    sendResponse(res, 'Message accepted', 201);
   });
 };
 
@@ -65,8 +56,10 @@ exports.addUser = function(name, res) {
     if (!err) {
       if (result.length === 0) {
         dbConnection.query("INSERT INTO user (name, rID) VALUES('" + name + "', " + lobbyId + ");", function(err, result){
-          sendResponse(res, result.id, 201);
+          sendResponse(res, {id: result.id, rID: lobbyId }, 201);
         });
+      } else {
+        sendResponse(res, {id: result.id, rID: results.rID}, 201); // user is returned to the room they logged out of
       }
     }
   });
