@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chatterbox</title>
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- external javascript -->
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/backbone/backbone-min.js"></script>
+
+    <script type='text/template' id="chatAppViewTemplate">
+      <header>
+        <h1>Hack.Chat Client</h1>
+        <div class="user-info-field"></div>
+      </header>
+      <div class="chat-content-container">
+        <section>
+          <div class="chat-input-form">
+            <form>
+              <input type="text" id="newChatMessageText" autofocus>
+              <input type="submit" id="submitNewChatMessageText">
+            </form>
+          </div>
+          <div class="chat-messages-field"></div>
+        </section>
+        <aside>
+          <div class="rooms-available-field"></div>
+          <div class="friends-list-field"></div>
+        </aside>
+      </div>
+    </script>
+    <script src="scripts/main.js"></script>
+
+    <!-- backbone models and collections -->
+    <script src="scripts/models/ChatApp.js"></script>
+    <script src="scripts/models/Message.js"></script>
+    <script src="scripts/models/User.js"></script>
+    <script src="scripts/collections/Room.js"></script>
+
+    <!-- backbone views -->
+    <script src="scripts/views/ChatAppView.js"></script>
+    <script src="scripts/views/RoomView.js"></script>
+    <script src="scripts/views/MessageView.js"></script>
+
+  </head>
+  <body>
+
+    <div class="user-input-modal">
+      <form>
+        <label>Welcome! Please enter a username!</label>
+        <input type="text" id="getUserName" autofocus>
+        <input type="submit" id="submitUserName" value="SUBMIT">
+      </form>
+    </div>
+
+  <div class="modelMask"></div>
+  </body>
+</html>
