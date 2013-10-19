@@ -27,6 +27,7 @@ dbConnection.query("SELECT id FROM rooms WHERE name = 'lobby';", function(err, r
 });
 
 exports.getMessages = function(req, res) {
+  
   sendResponse(res, FILL ME IN);
 };
 

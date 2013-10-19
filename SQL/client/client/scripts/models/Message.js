@@ -4,14 +4,13 @@ var Message = Backbone.Model.extend({
 
   initialize: function(params) {
     this.set('username', params.username);
-    this.set('roomname', params.roomname);
+    this.set('userId', params.userId);
+    this.set('roomId', params.roomId);
     this.set('text', params.text);
-    this.set('createdAt', params.createdAt);
   },
 
   post: function() {
     this.save();
-    this.trigger('updated');
   }
 
 });

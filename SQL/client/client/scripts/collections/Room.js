@@ -14,7 +14,7 @@ var Room = Backbone.Collection.extend({
     setInterval(function() {
       that.fetch();
       console.log(that.length);
-    }, 1000);
+    }, 2000);
   }
 
 });

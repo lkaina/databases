@@ -35,7 +35,6 @@ exports.chatRooms = function(req, res) {
       console.log("what is happening", req.method);
       sendResponse(res, 'Uh oh', 404);
   }
-
 };
 
 exports.users = function(req, res) {
